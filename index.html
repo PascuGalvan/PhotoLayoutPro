@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoLayout Pro - Editor de Diseño de Impresión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>📸 PhotoLayout Pro</h1>
+        <span class="subtitle">Editor Profesional de Diseño de Impresión</span>
+    </div>
+
+    <div class="main-container">
+        <!-- Panel izquierdo: Carga y configuración básica -->
+        <div class="controls-panel-left">
+            <div class="controls-section">
+                <h3>📁 Cargar Imágenes</h3>
+                <input type="file" id="fileInput" multiple accept="image/*">
+                <div class="drop-zone" id="dropZone">
+                    <p>📥 Arrastra imágenes aquí<br>o haz clic para seleccionar</p>
+                </div>
+                
+                <!-- Botón para cámara móvil -->
+                <div id="cameraSection" style="display: none; margin-top: 15px;">
+                    <h4 style="margin-bottom: 10px; color: #555;">📱 Cámara Móvil</h4>
+                    <button class="btn btn-success" id="cameraBtn" style="width: 100%;">
+                        📸 Tomar Foto
+                    </button>
+                    <div id="cameraPreview" style="margin-top: 10px; text-align: center; display: none;">
+                        <video id="cameraVideo" style="max-width: 100%; border-radius: 5px; display: none;"></video>
+                        <canvas id="cameraCanvas" style="display: none;"></canvas>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-success" id="captureBtn" style="margin-right: 5px;">✅ Usar Foto</button>
+                            <button class="btn btn-danger" id="cancelCameraBtn">❌ Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="image-list" id="imageList"></div>
+            </div>
+
+            <div class="controls-section">
+                <h3>📄 Tipo de Papel</h3>
+                <select id="paperSize">
+                    <option value="a4">A4 (210 × 297 mm)</option>
+                    <option value="a3">A3 (297 × 420 mm)</option>
+                    <option value="a5">A5 (148 × 210 mm)</option>
+                    <option value="letter">Carta (216 × 279 mm)</option>
+                    <option value="legal">Legal (216 × 356 mm)</option>
+                    <option value="tabloid">Tabloide (279 × 432 mm)</option>
+                </select>
+                <select id="orientation">
+                    <option value="portrait">Vertical</option>
+                    <option value="landscape">Horizontal</option>
+                </select>
+            </div>
+
+            <div class="controls-section" id="selectedImageControls" style="display: none;">
+                <h3>🎨 Imagen Seleccionada</h3>
+                <label>Ancho (px):</label>
+                <input type="number" id="imageWidth" min="10" max="1000">
+                <label>Alto (px):</label>
+                <input type="number" id="imageHeight" min="10" max="1000">
+                
+                <div class="checkbox-group" style="margin: 10px 0;">
+                    <input type="checkbox" id="maintainAspectRatio" checked>
+                    <label for="maintainAspectRatio">📏 Mantener proporciones</label>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="bringToFront()">⬆️ Traer al frente</button>
+                    <button class="btn btn-secondary" onclick="sendToBack()">⬇️ Enviar atrás</button>
+                </div>
+                <button class="btn btn-danger" onclick="deleteSelected()">🗑️ Eliminar imagen</button>
+            </div>
+        </div>
+
+        <!-- Panel derecho: Herramientas avanzadas y exportación -->
+        <div class="controls-panel-right">
+            <div class="controls-section">
+                <h3>🎛️ Mejora de Imagen</h3>
+                
+                <!-- Controles de deshacer/rehacer al principio -->
+                <div class="btn-group" style="margin-bottom: 15px;">
+                    <button class="btn btn-secondary" id="undoBtn" onclick="undo()" disabled>↩️ Deshacer</button>
+                    <button class="btn btn-secondary" id="redoBtn" onclick="redo()" disabled>↪️ Rehacer</button>
+                </div>
+                
+                <label>Contraste (1.0):</label>
+                <input type="range" id="contrastSlider" min="0.5" max="2.0" step="0.05" value="1.05">
+                
+                <label>Brillo (1.0):</label>
+                <input type="range" id="brightnessSlider" min="0.5" max="2.0" step="0.05" value="1.02">
+                
+                <label>Saturación (1.0):</label>
+                <input type="range" id="saturationSlider" min="0.5" max="2.0" step="0.05" value="1.05">
+                
+                <label>Nitidez (0px):</label>
+                <input type="range" id="sharpnessSlider" min="0" max="5" step="0.5" value="0">
+                
+                <div class="btn-group" style="margin-top: 10px;">
+                    <button class="btn btn-secondary" onclick="applyImageEnhancements()">✨ Aplicar Mejoras</button>
+                    <button class="btn btn-secondary" onclick="resetImageEnhancements()">↩️ Restablecer</button>
+                </div>
+                <button class="btn btn-success" onclick="showHighQualityPreview()" style="margin-top: 10px;">🔍 Previsualizar Alta Calidad</button>
+            </div>
+
+            <div class="controls-section">
+                <h3>✂️ Herramientas de Recorte</h3>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="startCropMode()">✂️ Iniciar Recorte</button>
+                    <button class="btn btn-secondary" onclick="applyCrop()">✅ Aplicar Recorte</button>
+                    <button class="btn btn-secondary" onclick="cancelCrop()">❌ Cancelar Recorte</button>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h3>🔄 Rotación</h3>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="rotateLeft()">↪️ Rotar Izquierda</button>
+                    <button class="btn btn-secondary" onclick="rotateRight()">↩️ Rotar Derecha</button>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h3>💾 Exportar</h3>
+                <button class="btn btn-success" onclick="printCanvas()">🖨️ Imprimir</button>
+                <button class="btn btn-success" onclick="saveAsPDF()">📄 Guardar como PDF</button>
+                <button class="btn btn-success" onclick="saveAsImage()">🖼️ Guardar como Imagen</button>
+                <button class="btn btn-danger" onclick="clearCanvas()">🔄 Limpiar todo</button>
+            </div>
+        </div>
+
+        <div class="workspace-container">
+            <div class="canvas-wrapper">
+                <div id="canvas"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 PhotoLayout Pro | Desarrollado por JPGB | Todos los derechos reservados</p>
+        <p>Versión 1.0.0 | Software de diseño profesional para impresión</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

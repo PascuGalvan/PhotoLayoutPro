@@ -1,0 +1,627 @@
+/* Estilos generales para PhotoLayout Pro */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.controls-panel-left,
+.controls-panel-right {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    min-width: 300px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.controls-section {
+    margin-bottom: 25px;
+}
+
+.controls-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 5px;
+}
+
+.workspace-container {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    min-height: 600px;
+}
+
+.canvas-wrapper {
+    background: white;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 500px;
+    position: relative;
+}
+
+#canvas {
+    position: relative;
+    background: white;
+    border: 1px solid #ddd;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para elementos de imagen */
+.image-element {
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: move;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    transform-origin: center;
+    user-select: none;
+}
+
+.image-element:hover {
+    border-color: #667eea;
+}
+
+.image-element.selected {
+    border-color: #764ba2;
+    border-width: 3px;
+    box-shadow: 0 0 15px rgba(118, 75, 162, 0.3);
+    z-index: 1000;
+}
+
+/* Handles de redimensionamiento - ocultos por defecto */
+.resize-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #764ba2;
+    border: 2px solid white;
+    border-radius: 50%;
+    bottom: -10px;
+    right: -10px;
+    cursor: nwse-resize;
+    z-index: 1001;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none; /* Oculto por defecto */
+}
+
+/* Mostrar handles solo en imagen seleccionada */
+.image-element.selected .resize-handle {
+    display: block;
+}
+
+.resize-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: rgba(118, 75, 162, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    bottom: -6px;
+    right: -6px;
+    cursor: nwse-resize;
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+}
+
+.image-element.selected .resize-corner {
+    display: block;
+}
+
+/* Handles táctiles para mejor usabilidad móvil - ocultos por defecto */
+.touch-handle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: rgba(118, 75, 162, 0.1);
+    border: 2px solid rgba(118, 75, 162, 0.3);
+    border-radius: 50%;
+    z-index: 999;
+    cursor: pointer;
+    display: none; /* Oculto por defecto */
+}
+
+/* Mostrar handles táctiles solo en imagen seleccionada */
+.image-element.selected .touch-handle {
+    display: block;
+}
+
+.touch-handle.top-left {
+    top: -15px;
+    left: -15px;
+    cursor: nwse-resize;
+}
+
+.touch-handle.top-right {
+    top: -15px;
+    right: -15px;
+    cursor: nesw-resize;
+}
+
+.touch-handle.bottom-left {
+    bottom: -15px;
+    left: -15px;
+    cursor: nesw-resize;
+}
+
+.touch-handle.bottom-right {
+    bottom: -15px;
+    right: -15px;
+    cursor: nwse-resize;
+}
+
+.touch-handle.rotate-handle {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(102, 126, 234, 0.1);
+    border-color: rgba(102, 126, 234, 0.5);
+    cursor: grab;
+}
+
+.touch-handle.rotate-handle:active {
+    cursor: grabbing;
+}
+
+/* Indicador visual de rotación */
+.image-element.selected .rotate-handle::before {
+    content: '🔄';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+
+/* Estilos para la zona de drop */
+.drop-zone {
+    border: 3px dashed #667eea;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    margin: 15px 0;
+    background: rgba(102, 126, 234, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drop-zone:hover {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: #764ba2;
+}
+
+.drop-zone.dragover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #764ba2;
+    transform: scale(1.02);
+}
+
+/* Lista de imágenes */
+.image-list {
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.image-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin: 5px 0;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.image-item:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.image-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+/* Botones */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    margin: 5px 0;
+}
+
+.btn-group {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.btn-group .btn {
+    flex: 1;
+    margin: 0;
+}
+
+.btn-success {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #45a049;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: #f44336;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #da190b;
+    transform: translateY(-1px);
+}
+
+/* Inputs y selects */
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin: 5px 0 15px 0;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.footer p {
+    margin: 5px 0;
+    color: #666;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .controls-panel-left,
+    .controls-panel-right {
+        min-width: auto;
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .main-container {
+        padding: 10px;
+    }
+    
+    .controls-panel-left,
+    .controls-panel-right {
+        padding: 15px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+}
+
+/* Animaciones para rotación */
+.image-element {
+    transition: transform 0.3s ease;
+}
+
+.image-element.rotating {
+    animation: rotateAnimation 0.3s ease;
+}
+
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(var(--target-rotation));
+    }
+}
+
+/* Estilos para el modo de recorte */
+.image-element.cropping-mode {
+    pointer-events: none !important;
+}
+
+.image-element.cropping-mode .crop-overlay,
+.image-element.cropping-mode .crop-area,
+.image-element.cropping-mode .crop-handle {
+    pointer-events: auto !important;
+}
+
+.crop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    pointer-events: auto !important;
+}
+
+.crop-area {
+    position: absolute;
+    border: 2px dashed #fff;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: move;
+    z-index: 1001 !important;
+    pointer-events: auto !important;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.crop-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #764ba2;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1002 !important;
+    pointer-events: auto !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.crop-handle:hover {
+    background: #8e5bb3;
+    transform: scale(1.2);
+}
+
+.crop-handle.top-left {
+    top: -10px;
+    left: -10px;
+    cursor: nwse-resize;
+}
+
+.crop-handle.top-right {
+    top: -10px;
+    right: -10px;
+    cursor: nesw-resize;
+}
+
+.crop-handle.bottom-left {
+    bottom: -10px;
+    left: -10px;
+    cursor: nesw-resize;
+}
+
+.crop-handle.bottom-right {
+    bottom: -10px;
+    right: -10px;
+    cursor: nwse-resize;
+}
+
+/* Estilos para la previsualización de alta calidad */
+.high-quality-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.high-quality-preview img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    image-rendering: high-quality;
+}
+
+/* Mejoras de usabilidad para móviles */
+@media (hover: none) and (pointer: coarse) {
+    .touch-handle {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .resize-handle {
+        width: 30px;
+        height: 30px;
+        bottom: -15px;
+        right: -15px;
+    }
+    
+    .btn {
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Efectos de hover mejorados */
+.btn:active {
+    transform: translateY(1px);
+}
+
+.image-element:active {
+    transform: scale(1.02);
+}
+
+/* Estilos para el historial de deshacer/rehacer */
+.controls-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.controls-section h3::before {
+    content: '';
+    font-size: 1.2em;
+}
+
+/* Estilos para la cámara móvil */
+#cameraSection {
+    border-top: 2px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+#cameraPreview {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#cameraVideo,
+#cameraCanvas {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+/* Mejoras de accesibilidad */
+.btn:focus,
+input:focus,
+select:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Estados de carga */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilos para checkbox de mantener proporciones */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+}

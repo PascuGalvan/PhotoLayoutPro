@@ -4,9 +4,21 @@
 
 PhotoLayout Pro es una aplicación web que permite crear diseños de impresión profesionales con múltiples imágenes. Ideal para crear collages, diseños para impresión fotográfica, álbumes y más.
 
+🌐 **[Ver Demo en Vivo](https://photolayoutpro.free.nf/)**
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+
+---
+
+## 🌐 Demo
+
+**¡Prueba la aplicación ahora mismo!**
+
+[![Demo](https://img.shields.io/badge/Demo-Ver%20Aplicación-brightgreen?style=for-the-badge)](https://photolayoutpro.free.nf/)
+
+👉 [https://photolayoutpro.free.nf/](https://photolayoutpro.free.nf/)
 
 ---
 
@@ -61,17 +73,20 @@ PhotoLayout Pro es una aplicación web que permite crear diseños de impresión 
 
 ## 🚀 Instalación
 
-### Opción 1: Uso directo
+### Opción 1: Usar la demo online
+Simplemente visita [https://photolayoutpro.free.nf/](https://photolayoutpro.free.nf/) - ¡No requiere instalación!
+
+### Opción 2: Uso local
 1. Descarga o clona el repositorio
 2. Abre `index.html` en tu navegador
 
 ```bash
-git clone https://github.com/tu-usuario/photolayout-pro.git
-cd photolayout-pro
+git clone https://github.com/PascuGalvan/PhotoLayoutPro.git
+cd PhotoLayoutPro
 # Abrir index.html en el navegador
 ```
 
-### Opción 2: Servidor local
+### Opción 3: Servidor local
 Para mejor rendimiento con algunas funciones:
 
 ```bash
@@ -170,9 +185,10 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👨‍💻 Autor
 
-**JPGB**
+**JPGB** - [@PascuGalvan](https://github.com/PascuGalvan)
 
 - Desarrollado con ❤️ para facilitar la creación de diseños de impresión
+- 🌐 Demo: [photolayoutpro.free.nf](https://photolayoutpro.free.nf/)
 
 ---
 
